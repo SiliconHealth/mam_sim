@@ -252,6 +252,7 @@ if st.button("Run Simulation"):
     total_patients = [len(appointment_schedule) for appointment_schedule in appointment_schedule_list]
     late_percentage = [(late_patients / total_patients) * 100 for late_patients, total_patients in zip(late_patients_list, total_patients)]
     avg_wait_time = [np.mean([v for v in wait_times if v > 0]) for wait_times in wait_times_list]
+    available_slots_per_day = [np.mean(available_slots) for available_slots in available_slots_list]
 
 
     def get_stats(data):
@@ -297,6 +298,13 @@ if st.button("Run Simulation"):
     # 2 decimal places
     stats_df["Value"] = stats_df["Value"].apply(lambda x: f"{x:.2f}")
     st.table(stats_df)
+
+    st.write(f"Average Available Slots per Day: ")
+    stats_df =get_stats(available_slots_per_day)
+    # 2 decimal places
+    stats_df["Value"] = stats_df["Value"].apply(lambda x: f"{x:.2f}")
+    st.table(stats_df)
+
 
     for choose_run in  list(range(num_run)):
         appointment_schedule = appointment_schedule_list[choose_run]
