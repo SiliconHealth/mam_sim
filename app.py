@@ -213,15 +213,17 @@ if st.button("Run Simulation"):
                     for i in range(1, window_finding):
                         if available_slots[next_day + i] > 0:
                             appointment_schedule.append(expected_day + i)
+                            wait_times.append(0)
                             available_slots[next_day + i] -= 1
                             found = True
                             break
                         if available_slots[next_day - i] > 0:
                             appointment_schedule.append(expected_day - i)
+                            wait_times.append(0)
                             available_slots[next_day - i] -= 1
                             found = True
                             break
-                        wait_times.append(0)
+                        
                     if not found:
                         # find the next available slot until found 
                         i = 15
@@ -234,8 +236,15 @@ if st.button("Run Simulation"):
                         wait_times.append(i)
                         appointment_schedule.append(expected_day + i)
 
+        
         appointment_schedule_list.append(appointment_schedule[burn_in_patient_count:])
         late_patients_list.append(len([v for v in wait_times[burn_in_patient_count:] if v > appt_threshold]))
+        # st.write(f"Len appointment_schedule: {len(appointment_schedule)}")
+        # st.write(f"Len appointment_schedule burn in: {len(appointment_schedule[burn_in_patient_count:])}")
+        # st.write(f"Len wait_times: {len(wait_times)}")
+        # st.write(f"Len wait_times burn in: {len(wait_times[burn_in_patient_count:])}")
+        # st.write(f"Late patients: {late_patients_list[-1]}")
+        # st.write(f"Avaialble slots: {len(available_slots[burn_in:burn_in+num_days])}")
         wait_times_list.append(wait_times[burn_in_patient_count:])
         available_slots_list.append(available_slots[burn_in:burn_in+num_days])
 
