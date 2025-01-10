@@ -60,6 +60,14 @@ for col, day in zip(columns, days_of_week):
         st.write(f"**Min:** {min_val}")
         st.write(f"**Max:** {max_val}")
 
+
+additional_cases = st.number_input(
+    "Additional Cases per Day",
+    min_value=0,
+    step=1,
+    value=0
+)
+
 st.header("Expected days from the visit to the examination:")
 
 # Create 7 columns for each day
@@ -193,7 +201,7 @@ if st.button("Run Simulation"):
             current_day_index = day % 7  # Get the current day of the week
             current_day = days_of_week[current_day_index]  # Get the current day
 
-            patients_today = random.choice(patient_dict[current_day])  # Get the number of patients for the day
+            patients_today = random.choice(patient_dict[current_day]) + additional_cases  # Get the number of patients for the day
             progress_bar.progress((day + 1) / (num_days+burn_in))
             if day == burn_in:
                 burn_in_patient_count = len(appointment_schedule)
