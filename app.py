@@ -320,7 +320,8 @@ if st.button("Run Simulation"):
         wait_times = wait_times_list[choose_run]
         available_slots = available_slots_list[choose_run]
 
-        cola, colb, colc, cold, cole, colf = st.columns(6)
+        cola, colb, colc, cold = st.columns(4)
+        cole, colf, colg = st.columns(3)
         with cola:
             # Create a histogram for appointment days
             fig = px.histogram(
@@ -395,9 +396,20 @@ if st.button("Run Simulation"):
                 margin=dict(l=10, r=10, t=30, b=10),
             )
             st.plotly_chart(fig, use_container_width=True)
-        
+        with colg:
+            # Create a histogram for average wait times
+            avg_wait_times = [np.mean(wait_times[:i]) for i in range(1, len(wait_times))]
+            fig = px.line(
+                y=avg_wait_times, 
+                title="Average Wait Times", 
+            )
 
-
+            fig.update_layout(
+                title=dict(font=dict(size=14)),
+                margin=dict(l=10, r=10, t=30, b=10),
+            )
+            st.plotly_chart(fig, use_container_width=True)
+            
 
         
 
